@@ -21,13 +21,13 @@ public class MainActivity extends AppCompatActivity {
     private Button summarizeButton;
     private TextView outputText;
     private ApiService apiService;
-    private static  String API_KEY;
+    private static  String apiKey ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        API_KEY = getResources().getString(R.string.gemini_api_key);
+        apiKey  = BuildConfig.API_KEY;
         inputText = findViewById(R.id.inputText);
         summarizeButton = findViewById(R.id.summarizeButton);
         outputText = findViewById(R.id.outputText);
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         String prompt = "Please provide only a summary of this text without any additional explanation. Make sure to preserve the important details of the text, and the number of words in the summary should be between forty to sixty percent of the total word count of the original text. The summary should be in the same language as the original message, regardless of the language. :\n" + userInput;
 
         SummarizeRequest request = new SummarizeRequest(prompt);
-        Call<SummarizeResponse> call = apiService.summarizeText(API_KEY, request);
+        Call<SummarizeResponse> call = apiService.summarizeText(apiKey , request);
 
         call.enqueue(new Callback<SummarizeResponse>() {
             @Override

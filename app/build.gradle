@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
 }
 
+
 android {
     compileSdk 34
 
@@ -16,15 +17,29 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "API_KEY", "\"${getApiKey()}\""
+        }
         release {
+            buildConfigField "String", "API_KEY", "\"${getApiKey()}\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+def getApiKey() {
+    def localProperties = new Properties()
+    def localFile = rootProject.file("local.properties")
+    if (localFile.exists()) {
+        localProperties.load(new FileInputStream(localFile))
+    }
+    return localProperties.getProperty("API_KEY", "default_api_key")
 }
 
 dependencies {
